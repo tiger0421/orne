@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="model" default="alpha" />
+  <arg name="map_file" default="$(find orne_navigation)/maps/mymap.yml" />
+  <arg name="scan_topic" default="scan" />
+
+  <!-- ORNE -->
+  <include file="$(find orne_bringup)/launch/orne_remote.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <!-- Map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <param name="use_sim_time" value="false" />
+    <remap from="scan" to="$(arg scan_topic)" />
+    <rosparam file="$(find orne_navigation)/param/localization_params.yml" command="load" />
+    <rosparam file="$(find orne_navigation)/param/localization_params_$(arg model).yml" command="load" />
+  </node>
+
+</launch>
