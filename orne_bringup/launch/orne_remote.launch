@@ -2,10 +2,8 @@
 
 <launch>
   <arg name="model" default="alpha" />
-
-  <include file="$(find orne_bringup)/launch/includes/description.launch.xml">
-    <arg name="model" value="$(arg model)" />
-  </include>
+  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find orne_description)/urdf/robots/orne_$(arg model).urdf.xacro'" />
+  <param name="robot_description" command="$(arg urdf_file)" />
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="50.0" />
