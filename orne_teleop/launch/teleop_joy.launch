@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="joy_config" default="elecom_joy" />
+    <arg name="joy_config" default="elecom" />
     <arg name="joy_dev" default="/dev/input/js0" />
-    <arg name="cmd_vel" default="/icart_mini/cmd_vel"/>
+    <arg name="cmd_vel" default="/icart/cmd_vel"/>
 
     <node pkg="joy" type="joy_node" name="joy_node">
         <param name="dev" value="$(arg joy_dev)" />
@@ -11,7 +11,7 @@
     </node>
 
     <node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
-        <rosparam command="load" file="$(find orne_params)/joy/$(arg joy_config).yml" />
+        <rosparam command="load" file="$(find orne_description)/joy/$(arg joy_config).config.yml" />
         <remap from="cmd_vel" to="$(arg cmd_vel)"/>
     </node>
 </launch>
