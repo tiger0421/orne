@@ -1,0 +1,47 @@
+version: '2.3'
+
+services:
+  ros_navigation:
+    image: ros:navigation-gui
+    container_name: ros_navigation
+    network_mode: "host"
+    privileged: true
+    tty: true
+    volumes:
+      - ~/share:/home/docker/share:rw
+      - ~/ros_ws/orne:/home/docker/catkin_ws/src/orne:rw
+      - ~/ros_ws/navigation:/home/docker/catkin_ws/src/navigation:rw
+    devices:
+      - /dev/dri:/dev/dri
+    command: /bin/bash
+
+  ros_bag:
+    image: osrf/ros:melodic-desktop-full
+    container_name: ros_bag
+    network_mode: "host"
+    tty: true
+    volumes:
+      - ~/share/bag:/root/share/bag:rw
+    working_dir: "/root/share/bag"
+    command: /bin/bash
+
+  rviz:
+    image: osrf/ros:melodic-desktop-full
+    container_name: rviz
+    network_mode: "host"
+    privileged: true
+    tty: true
+    group_add:
+      - video
+    environment:
+      - MESA_GL_VERSION_OVERRIDE=4.2
+      - XAUTHORITY=/tmp/.docker.xauth
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ~/.Xauthority:/root/.Xauthority:rw
+    devices:
+      - /dev/dri:/dev/dri
+    command: rviz
