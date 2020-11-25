@@ -8,6 +8,10 @@
   <arg name="cmd_vel_topic" default="icart/cmd_vel" />
   <arg name="odom_topic" default="icart/odom" />
 
+  <arg name="init_x" default="76.064" />
+  <arg name="init_y" default="61.632" />
+  <arg name="init_a" default="-1.809" />
+
   <!-- ORNE -->
   <include file="$(find orne_bringup)/launch/orne_remote.launch">
     <arg name="model" value="$(arg model)" />
@@ -28,10 +32,17 @@
   </node>
 
   <!-- Map server -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+      <remap from="map" to="map_for_costmap"/>
+      <param name="frame_id" value="map_for_costmap"/>
+  </node>
 
   <!-- AMCL -->
-  <include file="$(find orne_navigation)/launch/amcl.launch" />
+  <include file="$(find orne_navigation)/launch/amcl.launch">
+    <arg name="initial_pose_x" value="$(arg init_x)" />
+    <arg name="initial_pose_y" value="$(arg init_y)" />
+    <arg name="initial_pose_a" value="$(arg init_a)" />
+  </include>
 
   <!-- move_base -->
   <include file="$(find orne_navigation)/launch/move_base.launch">
