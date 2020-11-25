@@ -20,7 +20,7 @@
     <rosparam file="$(find orne_navigation)/param/global_costmap_params.yml" command="load" />
 
     <rosparam file="$(find orne_navigation)/param/move_base_params.yml" command="load" />
-    <rosparam file="$(find orne_navigation)/param/dwa_local_planner_params_$(arg model).yml" command="load" />
+    <rosparam file="$(find orne_navigation)/param/dwa_local_planner_params.yml" command="load" />
     <rosparam file="$(find orne_navigation)/param/recovery_params.yml" command="load"/>
 
     <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
