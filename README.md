@@ -7,6 +7,7 @@ $ mkdir -p ~/catkin_ws/src
 $ cd ~/catkin_ws/src
 $ git clone -b melodic-devel https://github.com/ros-planning/navigation.git
 $ git clone --recursive -b melodic https://github.com/tiger0421/orne.git
+$ git clone https://github.com/akhil22/velodyne_simulator.git
 $ cd ..
 $ catkin build
 ```
