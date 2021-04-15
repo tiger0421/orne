@@ -1,6 +1,6 @@
 TebLocalPlannerROS:
 
- odom_topic: odom
+ odom_topic: /icart_mini/odom
  map_frame: /odom
     
  # Trajectory
