@@ -1,21 +1,33 @@
 version: '2.3'
 services:
+  xwindow:
+    image: busybox
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ~/.Xauthority:/root/.Xauthority:rw
+      - /tmp/.docker.$USER.xauth:/tmp/.docker.xauth:ro
+
   roscore:
-    image: osrf/ros:melodic-desktop-full
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ros:navigation-noetic-gui-nvidia
     container_name: roscore
+    runtime: nvidia
     network_mode: "host"
     privileged: true
     environment:
       - ROS_MASTER_URI=http://localhost:11311
       - ROS_HOSTNAME=localhost
-    command: bash -c ". /opt/ros/melodic/setup.bash; roscore"
+    command: bash -c ". /opt/ros/noetic/setup.bash; roscore"
 
   ros_navigation:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ros:navigation-gui
+    image: ros:navigation-noetic-gui-nvidia
     container_name: ros_navigation
+    runtime: nvidia
     network_mode: "host"
     privileged: true
     tty: true
@@ -32,15 +44,22 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
       - ~/.Xauthority:/root/.Xauthority:rw
+    volumes_from:
+      - xwindow
     devices:
       - /dev/dri:/dev/dri
     command: /bin/bash
 
   rviz:
-    image: osrf/ros:melodic-desktop-full
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ros:navigation-noetic-gui-nvidia
     container_name: rviz
+    runtime: nvidia
     network_mode: "host"
     privileged: true
+    tty: true
     group_add:
       - video
     environment:
@@ -54,7 +73,9 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
       - ~/.Xauthority:/root/.Xauthority:rw
+    volumes_from:
+      - xwindow
     devices:
       - /dev/dri:/dev/dri
-    command: bash -c ". /opt/ros/melodic/setup.bash; sleep 3; rviz"
+    command: bash -c ". /opt/ros/noetic/setup.bash; sleep 5; rviz"
 

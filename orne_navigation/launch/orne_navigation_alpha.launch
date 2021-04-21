@@ -5,8 +5,9 @@
   <arg name="icart_dev_port" default="/dev/ttyACM0" />
   <arg name="map_file" />
   <arg name="move_forward_only" default="false" />
-  <arg name="cmd_vel_topic" default="icart/cmd_vel" />
-  <arg name="odom_topic" default="icart/odom" />
+  <arg name="use_sim_time" default="true" />
+  <arg name="cmd_vel_topic" default="icart_mini/cmd_vel" />
+  <arg name="odom_topic" default="icart_mini/odom" />
 
   <arg name="init_x" default="76.064" />
   <arg name="init_y" default="61.632" />
@@ -33,8 +34,8 @@
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
-      <remap from="map" to="map_for_costmap"/>
-      <param name="frame_id" value="map_for_costmap"/>
+      <remap from="map" to="map"/>
+      <param name="frame_id" value="map"/>
   </node>
 
   <!-- AMCL -->
