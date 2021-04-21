@@ -13,6 +13,7 @@ services:
       dockerfile: Dockerfile
     image: ros:navigation-noetic-gui-nvidia
     container_name: roscore
+    runtime: nvidia
     network_mode: "host"
     privileged: true
     environment:
@@ -26,6 +27,7 @@ services:
       dockerfile: Dockerfile
     image: ros:navigation-noetic-gui-nvidia
     container_name: ros_navigation
+    runtime: nvidia
     network_mode: "host"
     privileged: true
     tty: true
@@ -54,6 +56,7 @@ services:
       dockerfile: Dockerfile
     image: ros:navigation-noetic-gui-nvidia
     container_name: rviz
+    runtime: nvidia
     network_mode: "host"
     privileged: true
     tty: true
