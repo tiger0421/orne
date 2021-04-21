@@ -2,7 +2,6 @@
 <launch>
   <!-- Arguments -->
   <arg name="model" />
-  <arg name="icart_distribution" />
   <arg name="icart_dev" default="/dev/ttyACM0" />
   <arg name="urg_dev" default="/dev/ttyACM1" />
   <arg name="map_file" default="$(find orne_navigation)/maps/map.yml" />
@@ -16,7 +15,6 @@
     <arg name="model" value="$(arg model)" />
   </include>
   <include file="$(find orne_bringup)/launch/orne_drive.launch">
-    <arg name="icart_distribution" value="$(arg icart_distribution)" />
     <arg name="icart_dev" value="$(arg icart_dev)" />
   </include>
 
