@@ -4,8 +4,9 @@ raytrace_range: 3.5
 inflation_radius: 0.50
 cost_scaling_factor: 1
 update_frequency: 3.0
+robot_radius: 0.5
 
-footprint: [[0.514, 0.395], [0.514, -0.395], [-0.314, -0.395], [-0.314, 0.395]]
+#footprint: [[0.514, 0.395], [0.514, -0.395], [-0.314, -0.395], [-0.314, 0.395]]
 width: 5.0
 height: 5.0
 resolution: 0.15

@@ -5,11 +5,11 @@
   <arg name="config_filepath" default="$(find orne_description)/joy/$(arg joy_config).config.yml" />
 
   <node pkg="ypspur_ros" type="ypspur_ros" name="ypspur_ros">
-    <remap from="cmd_vel" to="icart/cmd_vel" />
-    <remap from="odom" to="icart/odom" />
+    <remap from="cmd_vel" to="icart_mini/cmd_vel" />
+    <remap from="odom" to="icart_mini/odom" />
     <param name="compatible" value="1" />
     <param name="port" value="$(arg icart_dev_port)" />
-    <param name="param_file" value="$(find orne_description)/icart_param/icart_mini.param" />
+    <param name="param_file" value="$(find orne_description)/icart/icart_middle.param" />
   </node>
 
   <node pkg="joy" type="joy_node" name="joy_node">

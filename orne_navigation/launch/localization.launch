@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="model" default="alpha" />
-  <arg name="map_file" default="$(find orne_navigation)/maps/mymap.yml" />
+  <arg name="map_file" default="$(find orne_description)/map/cit3f.yml" />
   <arg name="scan_topic" default="scan" />
   <arg name="initial_pose_x" default="0.0"/>
   <arg name="initial_pose_y" default="0.0"/>
