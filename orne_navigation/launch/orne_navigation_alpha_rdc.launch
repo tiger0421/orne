@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="alpha" />
+  <arg name="icart_dev_port" default="/dev/ttyACM0" />
+  <arg name="map_file" default="$(find orne_description)/map/cit3f.yml" />
+  <arg name="move_forward_only" default="false" />
+  <arg name="use_sim_time" default="true" />
+  <arg name="cmd_vel_topic" default="icart_mini/cmd_vel" />
+  <arg name="odom_topic" default="icart_mini/odom" />
+
+  <arg name="init_x" default="76.064" />
+  <arg name="init_y" default="61.632" />
+  <arg name="init_a" default="-1.809" />
+
+  <!-- ORNE -->
+  <!--
+  <include file="$(find orne_bringup)/launch/orne_remote_sim.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+  -->
+  <!--
+  <include file="$(find orne_bringup)/launch/orne_drive.launch">
+    <arg name="icart_dev_port" value="$(arg icart_dev_port)" />
+  </include>
+  -->
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+      <remap from="map" to="map"/>
+      <param name="frame_id" value="map"/>
+  </node>
+  <node pkg="map_server" name="map_server_for_costmap" type="map_server" args="$(arg map_file)">
+      <remap from="map" to="map_for_costmap"/>
+      <param name="frame_id" value="map_for_costmap"/>
+  </node>
+
+
+  <!-- AMCL -->
+  <include file="$(find orne_navigation)/launch/amcl.launch">
+    <arg name="initial_pose_x" value="$(arg init_x)" />
+    <arg name="initial_pose_y" value="$(arg init_y)" />
+    <arg name="initial_pose_a" value="$(arg init_a)" />
+  </include>
+
+  <!-- move_base -->
+  <include file="$(find orne_navigation)/launch/move_base.launch">
+    <arg name="model" value="$(arg model)" />
+    <arg name="move_forward_only" value="$(arg move_forward_only)" />
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+    <arg name="odom_topic" value="$(arg odom_topic)" />
+  </include>
+
+<!--
+  <node name="combine_dr_measurements" pkg="robot_pose_ekf" type="robot_pose_ekf">
+    <remap from="odom"                 to="/icart_mini/odom"/>
+    <param name="freq"                 value="30.0"/>
+    <param name="sensor_timeout"       value="1.0"/>
+    <param name="publish_tf"           value="true"/>
+    <param name="odom_used"            value="true"/>
+    <param name="imu_used"             value="true"/>
+    <param name="vo_used"              value="false"/>
+    <param name="output_frame"         value="odom"/>
+    <param name="base_footprint_frame" value="base_link"/>
+  </node>
+-->
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find orne_description)/icart/icart_control.yml" command="load"/>
+
+  <!-- load the controllers -->
+  <!-- publish /icart_mini/odom and /icart_mini/cmd_vel -->
+  <!--
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="icart_mini joint_state_controller">
+  </node>
+
+-->
+</launch>
